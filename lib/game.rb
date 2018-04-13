@@ -14,19 +14,11 @@ class Game
   end
 
   def over?
-    draw? || won? 
-  end
-      
-  def draw?
-   board.full? && !won?
-  end
-
-  def won?(line) 
-    line.all?{|i| line[i] == "X"}  || line.all?{|i| line[i] == "O"} 
+    board.someone_won || board.full?
   end
 
   def increment_turn
-    turn_count += 1
+    @turn_count += 1
   end
 
 end  
