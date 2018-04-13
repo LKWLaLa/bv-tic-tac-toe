@@ -54,25 +54,28 @@ class CLI
     ].sample
   end
 
-#needs refactor and handling of bad input
   def turn
     @game.increment_turn
-    state_which_player_goes
-    @board.display
     player = @game.current_player
+    puts "Player '#{player.token}'s turn!"
+    @board.display
     if player.class != Computer
-      puts "Please type the position number you would like to play. (0 through 8)"
-      position = gets.strip.to_i      
-      @board.valid_move?(position) ? 
-        player.move(@board, position) : prompt_for_bad_input(position)
+      get_position_and_move   
     else
       #player is the computer, and will generate a position
       player.move(@board)
     end
   end
 
-  def state_which_player_goes
-    puts "Player '#{@game.current_player.token}'s turn!"
+  def get_position_and_move
+    puts "Please type the position number you would like to play. (0 through 8)"
+    position = gets.strip.to_i
+    if @board.valid_move?(position) 
+      @game.current_player.move(@board, position)
+    else
+      prompt_for_bad_input(position)
+      get_position_and_move
+    end
   end
 
   def play_another?
