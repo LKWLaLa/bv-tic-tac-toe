@@ -1,8 +1,12 @@
 class CLI
+
   def start
     puts "Welcome to Tic Tac Toe!"
-    game = set_up_game
-    puts game.inspect
+    @game = set_up_game
+    @board = @game.board
+    until @game.over?
+      turn
+    end
 
   end
 
@@ -42,6 +46,11 @@ class CLI
   end
 
   def two_player_game
+    puts "Ok, one two-player game coming up!"
+    [
+      Game.new(Player.new("X"), Player.new("O")),
+      Game.new(Player.new("O"), Player.new("X"))
+    ].sample
   end
 
   def end_game
@@ -51,12 +60,23 @@ class CLI
   end
 
   def turn
+    state_which_player_goes
+    @board.display
+    player = @game.current_player
+    if player.class != Computer
+      puts "Please type the position number you would like to play. (0 through 8)"
+      position = gets.strip.to_i      
+      @board.valid_move?(position) ? 
+        player.move(@board, position) : prompt_for_bad_input(position)
+    else
+      #player is the computer, and will generate a position
+      player.move(@board)
+    end
+    @game.increment_turn
   end
 
-  def greet_user
-  end
-
-  def check_for_win
+  def state_which_player_goes
+    puts "Player '#{@game.current_player.token}'s turn!"
   end
 
   def congratulate_winner
