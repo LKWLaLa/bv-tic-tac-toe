@@ -34,7 +34,8 @@ class Board
     cells[position] = token
     update_rows_and_check_win(position) if someone_won == false
     update_columns_and_check_win(position) if someone_won == false
-    update_diags_and_check_win(position) if someone_won == false
+    update_diag_down_and_check_win(position) if someone_won == false
+    update_diag_up_and_check_win(position) if someone_won == false
   end
 
   def update_rows_and_check_win(position)
@@ -49,10 +50,12 @@ class Board
     handle_potential_win(columns[column][:positions_taken])
   end
 
-#needs refactoring
-  def update_diags_and_check_win(position)
+  def update_diag_down_and_check_win(position)
     diags[:down][:positions_taken] << position if position/3 == position % 3
     handle_potential_win(diags[:down][:positions_taken])
+  end
+
+  def update_diag_up_and_check_win(position)
     diags[:up][:positions_taken] << position if (position/3 + position % 3) == 2   
     handle_potential_win(diags[:up][:positions_taken])
   end
