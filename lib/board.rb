@@ -1,11 +1,22 @@
 class Board
-  attr_accessor :cells, :row_count, :column_count, :diag_count
+  attr_accessor :cells, :rows, :columns, :diags
 
   def initialize
     @cells = Array.new(9, " ")
-    @row_count = {0 => 0, 1 => 0, 2 => 0}
-    @column_count = {0 => 0, 1 => 0, 2 => 0}
-    @diag_count = {:down => 0, :up => 0}
+    @rows = {
+              0 => {tokens: 0, positions: [0, 1, 2]},
+              1 => {tokens: 0, positions: [3, 4, 5]},
+              2 => {tokens: 0, positions: [6, 7, 8]}
+            }
+    @columns = {
+                0 => {tokens: 0, positions: [0, 3, 6]},
+                1 => {tokens: 0, positions: [1, 4, 7]},
+                2 => {tokens: 0, positions: [2, 5, 8]}
+               }
+    @diags = {
+              :down => {tokens: 0, positions: [0, 4, 8]},
+              :up => {tokens: 0, positions: [6, 4, 2]}
+             }
   end  
 
   def display
@@ -25,17 +36,17 @@ class Board
 
   def update_rows(location)
     row = (location/3).floor
-    row_count[row] += 1
+    rows[row][:tokens] += 1
   end
 
   def update_columns(location)
     column = location % 3
-    column_count[column] += 1
+    columns[column][:tokens] += 1
   end
 
   def update_diags(location)
-    diag_count[:down] += 1 if location/3 == location % 3
-    diag_count[:up] += 1 if (location/3 + location % 3) == 2
+    diags[:down][:tokens] += 1 if location/3 == location % 3
+    diags[:up][:tokens] += 1 if (location/3 + location % 3) == 2
   end
 
   def taken?(location)
