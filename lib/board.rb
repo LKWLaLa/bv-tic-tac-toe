@@ -18,15 +18,15 @@ class Board
   end
 
   def update(location, token)
-    cells[location.to_i] = token
+    cells[location] = token
   end
 
   def taken?(location)
-    cells[location.to_i] != " "    
+    cells[location] != " "    
   end
 
   def valid_move?(location)
-    location.to_i.between?(0,8) && !taken?(location)
+    location.between?(0,8) && !taken?(location)
   end
 
   def full?
