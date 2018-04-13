@@ -1,6 +1,6 @@
 class Board
-  attr_accessor :cells, :rows, :columns, :diags, :someone_won
-
+  attr_reader :cells, :rows, :columns, :diags, :someone_won
+  
   def initialize
     @cells = Array.new(9, " ")
     @someone_won = false

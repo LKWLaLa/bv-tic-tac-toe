@@ -1,6 +1,5 @@
-class Game
-  attr_accessor :player_1, :player_2, :turn_count 
-  attr_reader :board
+class Game 
+  attr_reader :board, :player_1, :player_2, :turn_count 
 
   def initialize(player_1, player_2)
     @player_1 = player_1
