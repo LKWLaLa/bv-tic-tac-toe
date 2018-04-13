@@ -7,7 +7,8 @@ class CLI
     until @game.over?
       turn
     end
-
+    end_game_message
+    play_another?
   end
 
   def set_up_game
@@ -53,13 +54,9 @@ class CLI
     ].sample
   end
 
-  def end_game
-  end
-
-  def exit
-  end
-
+#needs refactor and handling of bad input
   def turn
+    @game.increment_turn
     state_which_player_goes
     @board.display
     player = @game.current_player
@@ -72,17 +69,40 @@ class CLI
       #player is the computer, and will generate a position
       player.move(@board)
     end
-    @game.increment_turn
   end
 
   def state_which_player_goes
     puts "Player '#{@game.current_player.token}'s turn!"
   end
 
-  def congratulate_winner
+  def play_another?
+    puts "Do you want to play another? (y/n)"
+    answer = gets.strip
+    case answer
+      when "y", "Y"
+        start
+      when "n", "N"
+        exit_cli
+      else
+        prompt_for_bad_input(answer)
+        play_another?
+    end
   end
 
-  def play_another?
+  def end_game_message
+    @board.display
+    if @board.someone_won
+      puts "Congratulations! Player '#{@game.current_player.token}' WINS!!"
+      puts "=" * 11
+    else
+      puts "Hey, it looks like a draw!"
+      puts "=" * 11
+    end
+  end
+
+  def exit_cli
+    puts "Ok, goodbye!"
+    exit
   end
 
   def prompt_for_bad_input(input)
