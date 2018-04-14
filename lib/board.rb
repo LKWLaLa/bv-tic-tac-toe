@@ -5,20 +5,13 @@ class Board
     @length = length
     @cells = Array.new(length**2, " ")
     @someone_won = false
-    @rows = {
-              0 => {positions_taken: []},
-              1 => {positions_taken: []},
-              2 => {positions_taken: []}
-            }
-    @columns = {
-                0 => {positions_taken: []},
-                1 => {positions_taken: []},
-                2 => {positions_taken: []}
-               }
-    @diags = {
-              :down => {positions_taken: []},
-              :up => {positions_taken: []}
-             }
+    @rows = {}
+    @columns = {}
+    (0..length-1).each do |i|
+      @rows[i] = {positions_taken: []}
+      @columns[i] = {positions_taken: []}
+    end
+    @diags = {:down => {positions_taken: []}, :up => {positions_taken: []} }
   end  
 
   def display
