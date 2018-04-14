@@ -62,7 +62,8 @@ class CLI
     puts "Player '#{player.token}'s turn!"
     @board.display
     if player.class != Computer
-      get_position_and_move   
+      position = get_position
+      player.move(@board, position)
     else
       #player is the computer, and will generate a position
       player.move(@board)
@@ -90,15 +91,15 @@ class CLI
     size >= 3
   end
 
-  def get_position_and_move
+  def get_position
     puts "Please type the position number you would like to play. (0 through #{@row_size**2 - 1})"
     print "> "
     position = gets.strip.to_i
     if @board.valid_move?(position) 
-      @game.current_player.move(@board, position)
+      position
     else
       prompt_for_bad_input(position)
-      get_position_and_move
+      get_position
     end
   end
 
