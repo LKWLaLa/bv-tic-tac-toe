@@ -1,8 +1,9 @@
 class Board
-  attr_reader :cells, :rows, :columns, :diags, :someone_won
+  attr_reader :cells, :rows, :columns, :diags, :someone_won, :length
   
-  def initialize
-    @cells = Array.new(9, " ")
+  def initialize(length)
+    @length = length
+    @cells = Array.new(length**2, " ")
     @someone_won = false
     @rows = {
               0 => {positions_taken: []},
@@ -21,13 +22,17 @@ class Board
   end  
 
   def display
-    puts "=" * 11
-    puts " #{cells[0]} | #{cells[1]} | #{cells[2]} "
-    puts "-" * 11
-    puts " #{cells[3]} | #{cells[4]} | #{cells[5]} "
-    puts "-" * 11
-    puts " #{cells[6]} | #{cells[7]} | #{cells[8]} "
-    puts "=" * 11
+    border_length = length * 3
+    puts "=" * border_length
+    cells.each_with_index do |value, index|
+      if (index + 1) % length == 0 && index != 0
+        puts value
+        puts "-" * border_length
+      else
+        print "#{value} |"
+      end
+    end
+    puts "=" * border_length
   end
 
   def update(position, token)
