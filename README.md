@@ -2,6 +2,6 @@
 
 ### To install and run:
 
-- Clone this directory
+- clone this directory
 - cd into this directory in your terminal
 - run `bin/tictactoe`
