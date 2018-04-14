@@ -6,7 +6,7 @@ class Computer < Player
   def choose_location(board)
     location = 0
     until board.valid_move?(location)
-      location = rand(1..board.row_length - 1)
+      location = rand(1..board.row_length**2 - 1)
     end
     location
   end

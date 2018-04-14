@@ -1,5 +1,5 @@
 class Board
-  attr_reader :cells, :rows, :columns, :diags, :someone_won, :length
+  attr_reader :cells, :rows, :columns, :diags, :someone_won, :row_length
   
   def initialize(row_length)
     @row_length = row_length
@@ -15,14 +15,14 @@ class Board
   end  
 
   def display
-    border_length = row_length * 3
+    border_length = row_length * 4
     puts "=" * border_length
     cells.each_with_index do |value, index|
       if (index + 1) % row_length == 0 && index != 0
-        puts value
+        puts "  #{value}  "
         puts "-" * border_length
       else
-        print "#{value} |"
+        print " #{value} |"
       end
     end
     puts "=" * border_length
@@ -75,7 +75,7 @@ class Board
   end
 
   def valid_move?(position)
-    position.between?(0,(row_length-1)) && !taken?(position)
+    position.between?(0,(row_length**2 - 1)) && !taken?(position)
   end
 
   def full?
