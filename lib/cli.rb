@@ -1,9 +1,11 @@
 class CLI
 
   def start
+    puts "-" * 25
     puts "Welcome to Tic Tac Toe!"
+    @row_size = get_board_size
+    @board = Board.new(@row_size)
     @game = set_up_game
-    @board = @game.board
     until @game.over?
       turn
     end
@@ -31,13 +33,13 @@ class CLI
     case token
       when "X","x"
         [
-          Game.new(Player.new("X"), Computer.new("O")),
-          Game.new(Computer.new("O"), Player.new("X"))
+          Game.new(Player.new("X"), Computer.new("O"), @board),
+          Game.new(Computer.new("O"), Player.new("X"), @board)
         ].sample
       when "O", "o"
         [
-          Game.new(Player.new("O"), Computer.new("X")),
-          Game.new(Computer.new("X"), Player.new("O"))
+          Game.new(Player.new("O"), Computer.new("X"), @board),
+          Game.new(Computer.new("X"), Player.new("O"), @board)
         ].sample        
       else
         prompt_for_bad_input(token)
@@ -47,10 +49,10 @@ class CLI
   end
 
   def two_player_game
-    puts "Ok, one two-player game coming up!"
+    puts "Ok, two-player game coming up!"
     [
-      Game.new(Player.new("X"), Player.new("O")),
-      Game.new(Player.new("O"), Player.new("X"))
+      Game.new(Player.new("X"), Player.new("O"), @board),
+      Game.new(Player.new("O"), Player.new("X"), @board)
     ].sample
   end
 
@@ -67,8 +69,20 @@ class CLI
     end
   end
 
+  def get_board_size
+    puts "-" * 25
+    puts "This tic tac toe game has a flexible board size."
+    puts "Please enter the number of boxes you would like to have in one row."
+    puts "You can type any number, 3 or greater."
+    puts "Just keep in mind the limitations of your terminal display size!"
+    puts "-" * 25
+    print "> "
+    gets.strip.to_i
+  end
+
   def get_position_and_move
-    puts "Please type the position number you would like to play. (0 through 8)"
+    puts "Please type the position number you would like to play. (0 through #{@row_size**2 - 1})"
+    print "> "
     position = gets.strip.to_i
     if @board.valid_move?(position) 
       @game.current_player.move(@board, position)
