@@ -73,11 +73,21 @@ class CLI
     puts "-" * 25
     puts "This tic tac toe game has a flexible board size."
     puts "Please enter the number of boxes you would like to have in one row."
-    puts "You can type any number, 3 or greater."
+    puts "You can type any integer, 3 or greater."
     puts "Just keep in mind the limitations of your terminal display size!"
     puts "-" * 25
     print "> "
-    gets.strip.to_i
+    row_size = gets.strip.to_i
+    if row_size_valid?(row_size) 
+      row_size
+    else
+      prompt_for_bad_input(row_size)
+      get_board_size
+    end
+  end
+
+  def row_size_valid?(size)
+    size >= 3
   end
 
   def get_position_and_move
